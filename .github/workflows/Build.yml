@@ -1,14 +1,11 @@
-name: PSP Homebrew Build
+name: Build PSP Homebrew
 
 on:
   push:
     branches:
       - main
       - master
-
   pull_request:
-
-  workflow_dispatch:
 
 jobs:
   build:
@@ -18,23 +15,17 @@ jobs:
       image: pspdev/pspdev:latest
 
     steps:
-      - name: Repo Checkout
+      - name: Repo'yu indir
         uses: actions/checkout@v4
 
-      - name: PSP SDK Kontrol
-        run: |
-          psp-config --pspsdk-path
-          psp-gcc --version
+      - name: PSP Homebrew derle
+        run: make
 
-      - name: Build
-        run: |
-          make
-
-      - name: Upload EBOOT
+      - name: Build dosyalarını yükle
         uses: actions/upload-artifact@v4
         with:
-          name: PSP-EBOOT
+          name: PSP-Build
           path: |
-            EBOOT.PBP
             *.elf
             *.prx
+            EBOOT.PBP
